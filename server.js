@@ -1,21 +1,27 @@
 import { createServer } from 'http';
 import { Server } from 'socket.io';
 
-import { ENV, PORT } from './configuration/index.js';
+import {
+  ALLOWED_ORIGINS,
+  ENV,
+  PORT,
+} from './configuration/index.js';
 import log from './utilities/log.js';
+
+import connection from './handlers/connection.js';
 
 const httpServer = createServer();
 const io = new Server(
   httpServer,
   {
     cors: {
-      origin: 'http://localhost:3000',
+      origin: ALLOWED_ORIGINS,
       credentials: true,
     },
   },
 );
 
-io.on('connection', (socket) => log(`connected ${socket.id}`));
+io.on('connection', connection);
 
 httpServer.listen(
   PORT,

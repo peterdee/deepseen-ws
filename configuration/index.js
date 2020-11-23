@@ -1,5 +1,10 @@
 import { env as environment } from 'process';
 
+// Array of the allowed origins for the CORS
+export const ALLOWED_ORIGINS = environment.ALLOWED_ORIGINS
+  ? environment.ALLOWED_ORIGINS.split(',')
+  : '';
+
 // Available application environments
 export const ENVS = {
   development: 'development',
