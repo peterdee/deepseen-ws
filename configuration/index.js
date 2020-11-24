@@ -30,6 +30,8 @@ export const PORT = Number(environment.PORT) || 9500;
 
 // Response messages
 export const RESPONSE_MESSAGES = {
+  internalServerError: 'INTERNAL_SERVER_ERROR',
+  invalidToken: 'INVALID_TOKEN',
   missingToken: 'MISSING_TOKEN',
   ok: 'OK',
 };
@@ -38,12 +40,14 @@ export const RESPONSE_MESSAGES = {
 export const SOCKET_EVENTS = {
   connection: 'connection',
   disconnect: 'disconnect',
+  playNext: 'play-next',
 };
 
 // Status codes
 export const STATUS_CODES = {
   badRequest: 400,
   created: 201,
+  internalServerError: 500,
   ok: 200,
   unauthorized: 401,
 };
@@ -56,5 +60,9 @@ export const TOKENS = {
   SESSION: {
     EXPIRATION: Number(environment.TOKENS_SESSION_EXPIRATION) || 600,
     SECRET: environment.TOKENS_SESSION_SECRET || 'secret',
+  },
+  TYPES: {
+    ACCESS: 'ACCESS',
+    SESSION: 'SESSION',
   },
 };
