@@ -5,10 +5,11 @@ import {
   ALLOWED_ORIGINS,
   ENV,
   PORT,
+  SOCKET_EVENTS,
 } from './configuration/index.js';
+import authorize from './middlewares/authorize.js';
 import log from './utilities/log.js';
-
-import connection from './handlers/connection.js';
+import router from './router/index.js';
 
 const httpServer = createServer();
 const io = new Server(
@@ -21,7 +22,9 @@ const io = new Server(
   },
 );
 
-io.on('connection', connection);
+io.use((socket, next) => authorize(socket, next));
+
+io.on(SOCKET_EVENTS.connection, router);
 
 httpServer.listen(
   PORT,
