@@ -7,27 +7,33 @@ import {
   TOKENS,
 } from '../configuration/index.js';
 import errorResponse from '../utilities/error-response.js';
+import { get, set } from '../utilities/redis.js';
 
+/**
+ * Authorize a connection
+ * @param {*} socket - a socket connection
+ * @param {*} next - call the next handler
+ * @returns {Promise<void>}
+ */
 export default async (socket, next) => {
-  const {
-    handshake: {
-      query: {
-        accessToken = '',
-        sessionToken = '',
-      } = {},
-    } = {},
-  } = socket;
+  // check access token
+  const { handshake: { query: { accessToken = '' } = {} } = {} } = socket;
+  if (!accessToken) {
+    return next(errorResponse({
+      info: RESPONSE_MESSAGES.missingToken,
+      status: STATUS_CODES.unauthorized,
+    }));
+  }
 
-  // check the session token
-  if (sessionToken) {
+  try {
     const {
       client = '',
-      type = '',
+      image = '',
       userId = '',
-    } = await jwt.verify(sessionToken, TOKENS.SESSION.SECRET);
+    } = await jwt.verify(accessToken, TOKENS.ACCESS.SECRET);
 
     // if some of the token data is missing
-    if (!(client && type && type === TOKENS.TYPES.SESSION && userId)) {
+    if (!(client && image && userId)) {
       return next(errorResponse({
         info: RESPONSE_MESSAGES.invalidToken,
         status: STATUS_CODES.unauthorized,
@@ -43,53 +49,36 @@ export default async (socket, next) => {
       }));
     }
 
-    // continue
+    // find user in Redis
+    const redisImage = await get(userId);
+    if (redisImage) {
+      if (redisImage === image) {
+        // eslint-disable-next-line
+        socket.user = {
+          client,
+          id: userId,
+        };
+        return next();
+      }
+      return next(errorResponse({
+        info: RESPONSE_MESSAGES.invalidToken,
+        status: STATUS_CODES.unauthorized,
+      }));
+    }
+
+    // TODO: find user in the database
+    await set(userId, image);
+
     // eslint-disable-next-line
     socket.user = {
       client,
       id: userId,
-      sessionToken,
     };
     return next();
+  } catch {
+    return next(errorResponse({
+      info: RESPONSE_MESSAGES.invalidToken,
+      status: STATUS_CODES.unauthorized,
+    }));
   }
-
-  if (accessToken) {
-    try {
-      const {
-        client = '',
-        image = '',
-        type = '',
-        userId = '',
-      } = await jwt.verify(accessToken, TOKENS.ACCESS.SECRET);
-
-      // if some of the token data is missing
-      if (!(client && image && type && type === TOKENS.TYPES.ACCESS && userId)) {
-        return next(errorResponse({
-          info: RESPONSE_MESSAGES.invalidToken,
-          status: STATUS_CODES.unauthorized,
-        }));
-      }
-
-      // if the client is invalid
-      const clientList = Object.values(CLIENTS);
-      if (!clientList.includes(client)) {
-        return next(errorResponse({
-          info: RESPONSE_MESSAGES.invalidToken,
-          status: STATUS_CODES.unauthorized,
-        }));
-      }
-
-      // eslint-disable-next-line
-      socket.userId = userId;
-      return next();
-    } catch (error) {
-      return next();
-    }
-  }
-
-  // send an error response if both tokens are missing
-  return next(errorResponse({
-    info: RESPONSE_MESSAGES.missingToken,
-    status: STATUS_CODES.unauthorized,
-  }));
 };

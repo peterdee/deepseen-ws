@@ -52,17 +52,16 @@ export const STATUS_CODES = {
   unauthorized: 401,
 };
 
+// Redis
+export const REDIS = {
+  HOST: environment.REDIS_HOST || '',
+  PASSWORD: environment.REDIS_PASSWORD || '',
+  PORT: Number(environment.REDIS_PORT) || 6379,
+};
+
 // Tokens
 export const TOKENS = {
   ACCESS: {
     SECRET: environment.TOKENS_ACCESS_SECRET || 'secret',
-  },
-  SESSION: {
-    EXPIRATION: Number(environment.TOKENS_SESSION_EXPIRATION) || 600,
-    SECRET: environment.TOKENS_SESSION_SECRET || 'secret',
-  },
-  TYPES: {
-    ACCESS: 'ACCESS',
-    SESSION: 'SESSION',
   },
 };

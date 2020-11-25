@@ -1,7 +1,13 @@
 import redis from 'redis';
 import { promisify } from 'util';
 
-const client = redis.createClient();
+import { REDIS } from '../configuration/index.js';
+
+const client = redis.createClient({
+  host: REDIS.HOST,
+  password: REDIS.PASSWORD,
+  port: REDIS.PORT,
+});
 
 const del = promisify(client.del).bind(client);
 const get = promisify(client.get).bind(client);
