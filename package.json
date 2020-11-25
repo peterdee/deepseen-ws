@@ -24,7 +24,9 @@
   "keywords": [
     "JWT",
     "Node",
+    "PostgreSQL",
     "Redis",
+    "Sequelize",
     "Socket.IO",
     "Websockets"
   ],
