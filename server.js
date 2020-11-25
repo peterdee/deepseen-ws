@@ -8,6 +8,7 @@ import {
   SOCKET_EVENTS,
 } from './configuration/index.js';
 import authorize from './middlewares/authorize.js';
+import { client as redis } from './utilities/redis.js';
 import log from './utilities/log.js';
 import router from './router/index.js';
 
@@ -25,6 +26,9 @@ const io = new Server(
 io.use((socket, next) => authorize(socket, next));
 
 io.on(SOCKET_EVENTS.connection, router);
+// io.on(SOCKET_EVENTS.disconnect, (socket) => log(`disconnected ${socket.id} ${socket.user}`));
+
+redis.on('connect', () => log('-- redis: connected'));
 
 httpServer.listen(
   PORT,

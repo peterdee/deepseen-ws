@@ -6,7 +6,7 @@ const connections = {};
 export default (socket) => {
   socket.on('message', (data) => {
     connections[socket.id] = socket.id;
-    log(`message: ${data}, ${socket.userId}, ${JSON.stringify(connections)}`);
+    log(`message: ${data}, ${socket.user}, ${JSON.stringify(connections)}`);
   });
 
   socket.on(SOCKET_EVENTS.playNext, () => log('play next'));
