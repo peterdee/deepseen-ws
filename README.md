@@ -2,7 +2,7 @@
 
 A Websockets server for the Deepseen project
 
-Stack: Node, Socket.IO, Redis, PostgreSQL, Sequelize, JWT
+Stack: Node, Socket.IO, Redis, JWT
 
 DEV: http://localhost:9500
 

@@ -9,7 +9,6 @@ import {
 } from './configuration/index.js';
 import authorize from './middlewares/authorize.js';
 import { client as redis } from './utilities/redis.js';
-import connection from './database/index.js';
 import log from './utilities/log.js';
 import router from './router/index.js';
 
@@ -30,11 +29,6 @@ io.on(SOCKET_EVENTS.connection, router);
 // io.on(SOCKET_EVENTS.disconnect, (socket) => log(`disconnected ${socket.id} ${socket.user}`));
 
 redis.on('connect', () => log('-- redis: connected'));
-connection.authenticate()
-  .then(() => log('-- database: connected'))
-  .catch((error) => {
-    throw error;
-  });
 
 httpServer.listen(
   PORT,

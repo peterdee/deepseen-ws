@@ -66,7 +66,8 @@ export default async (socket, next) => {
       }));
     }
 
-    // TODO: find user in the database
+    // TODO: load user from the main server
+
     await set(userId, image);
 
     // eslint-disable-next-line

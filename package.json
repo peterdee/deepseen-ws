@@ -24,9 +24,7 @@
   "keywords": [
     "JWT",
     "Node",
-    "PostgreSQL",
     "Redis",
-    "Sequelize",
     "Socket.IO",
     "Websockets"
   ],
@@ -35,10 +33,7 @@
     "chalk": "^4.1.0",
     "dotenv": "^8.2.0",
     "jsonwebtoken": "^8.5.1",
-    "pg": "^8.5.1",
-    "pg-hstore": "^2.3.3",
     "redis": "^3.0.2",
-    "sequelize": "^6.3.5",
     "socket.io": "^3.0.3"
   },
   "devDependencies": {
