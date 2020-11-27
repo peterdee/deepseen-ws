@@ -2,11 +2,13 @@ import jwt from 'jsonwebtoken';
 
 import {
   CLIENTS,
+  REDIS,
   RESPONSE_MESSAGES,
   STATUS_CODES,
   TOKENS,
 } from '../configuration/index.js';
 import errorResponse from '../utilities/error-response.js';
+import keyFormatter from '../utilities/key-formatter.js';
 import { get, set } from '../utilities/redis.js';
 
 /**
@@ -68,7 +70,12 @@ export default async (socket, next) => {
 
     // TODO: load user from the main server
 
-    await set(userId, image);
+    await set(
+      keyFormatter(REDIS.PREFIXES.user, userId),
+      image,
+      'EX',
+      REDIS.TTL,
+    );
 
     // eslint-disable-next-line
     socket.user = {

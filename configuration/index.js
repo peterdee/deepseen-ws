@@ -28,6 +28,18 @@ export const { DATABASE_CONNECTION_STRING = '' } = environment;
 // Application port
 export const PORT = Number(environment.PORT) || 9500;
 
+// Redis
+export const REDIS = {
+  HOST: environment.REDIS_HOST || '',
+  PASSWORD: environment.REDIS_PASSWORD || '',
+  PORT: Number(environment.REDIS_PORT) || 6379,
+  PREFIXES: {
+    room: 'room',
+    user: 'user',
+  },
+  TTL: 8 * 60 * 60, // 8 hours
+};
+
 // Response messages
 export const RESPONSE_MESSAGES = {
   internalServerError: 'INTERNAL_SERVER_ERROR',
@@ -50,13 +62,6 @@ export const STATUS_CODES = {
   internalServerError: 500,
   ok: 200,
   unauthorized: 401,
-};
-
-// Redis
-export const REDIS = {
-  HOST: environment.REDIS_HOST || '',
-  PASSWORD: environment.REDIS_PASSWORD || '',
-  PORT: Number(environment.REDIS_PORT) || 6379,
 };
 
 // Tokens

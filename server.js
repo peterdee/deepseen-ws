@@ -26,7 +26,6 @@ const io = new Server(
 io.use((socket, next) => authorize(socket, next));
 
 io.on(SOCKET_EVENTS.connection, router);
-// io.on(SOCKET_EVENTS.disconnect, (socket) => log(`disconnected ${socket.id} ${socket.user}`));
 
 redis.on('connect', () => log('-- redis: connected'));
 
