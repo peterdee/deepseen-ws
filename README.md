@@ -32,3 +32,7 @@ The `airbnb` preset is used in conjunction with `ESLint`
 ```shell script
 npm run lint
 ```
+
+### License
+
+[MIT](LICENSE)

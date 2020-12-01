@@ -10,6 +10,7 @@ const client = redis.createClient({
 });
 
 const del = promisify(client.del).bind(client);
+const expire = promisify(client.expire).bind(client);
 const get = promisify(client.get).bind(client);
 const set = promisify(client.set).bind(client);
 
@@ -21,6 +22,7 @@ client.on('error', (error) => {
 export {
   client,
   del,
+  expire,
   get,
   set,
 };

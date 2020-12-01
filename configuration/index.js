@@ -5,6 +5,9 @@ export const ALLOWED_ORIGINS = environment.ALLOWED_ORIGINS
   ? environment.ALLOWED_ORIGINS.split(',')
   : '';
 
+// Backend origin
+export const { BACKEND_ORIGIN = '' } = environment;
+
 // Available client types
 export const CLIENTS = {
   desktop: 'desktop',
@@ -37,11 +40,12 @@ export const REDIS = {
     room: 'room',
     user: 'user',
   },
-  TTL: 8 * 60 * 60, // 8 hours
+  TTL: 24 * 60 * 60, // 8 hours
 };
 
 // Response messages
 export const RESPONSE_MESSAGES = {
+  accessDenied: 'ACCESS_DENIED',
   internalServerError: 'INTERNAL_SERVER_ERROR',
   invalidToken: 'INVALID_TOKEN',
   missingToken: 'MISSING_TOKEN',
@@ -64,9 +68,8 @@ export const STATUS_CODES = {
   unauthorized: 401,
 };
 
-// Tokens
-export const TOKENS = {
-  ACCESS: {
-    SECRET: environment.TOKENS_ACCESS_SECRET || 'secret',
-  },
-};
+// Token secret
+export const { TOKEN_SECRET = 'secret' } = environment;
+
+// Secret for the backend
+export const { WS_SECRET = 'secret' } = environment;
