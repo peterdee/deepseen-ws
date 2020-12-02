@@ -31,7 +31,5 @@ export default async (socket, reason = '') => {
   return set(
     key,
     JSON.stringify(clients.filter((client) => client.socketId !== socket.id)),
-    'EX',
-    REDIS.TTL,
   );
 };

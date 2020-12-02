@@ -25,6 +25,18 @@ export const ENVS = {
 // Current application environment
 export const ENV = environment.ENV || ENVS.development;
 
+// Socket events
+export const EVENTS = {
+  INCOMING: {
+    connection: 'connection',
+    disconnect: 'disconnect',
+  },
+  OUTGOING: {
+    clientTypeAlreadyOnline: 'CLIENT_TYPE_IS_ALREADY_ONLINE',
+    internalServerError: 'INTERNAL_SERVER_ERROR',
+  },
+};
+
 // Database connection
 export const { DATABASE_CONNECTION_STRING = '' } = environment;
 
@@ -46,13 +58,14 @@ export const REDIS = {
 // Response messages
 export const RESPONSE_MESSAGES = {
   accessDenied: 'ACCESS_DENIED',
+  clientTypeAlreadyOnline: 'CLIENT_TYPE_IS_ALREADY_ONLINE',
   internalServerError: 'INTERNAL_SERVER_ERROR',
   invalidToken: 'INVALID_TOKEN',
   missingToken: 'MISSING_TOKEN',
   ok: 'OK',
 };
 
-// Socket event names
+// Incoming socket event names
 export const SOCKET_EVENTS = {
   connection: 'connection',
   disconnect: 'disconnect',
