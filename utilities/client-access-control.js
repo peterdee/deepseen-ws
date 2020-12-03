@@ -23,7 +23,6 @@ export default async (socket, io) => {
 
     // if there's no room, store it in Redis
     if (!redisRoom) {
-      socket.join(socket.user.id);
       return set(
         key,
         JSON.stringify([{
@@ -42,7 +41,6 @@ export default async (socket, io) => {
       } catch {
         // if it cannot be parsed, re-write it
         await del(key);
-        socket.join(socket.user.id);
         return set(
           key,
           JSON.stringify([{
@@ -56,7 +54,6 @@ export default async (socket, io) => {
       // if it's not an array or if it is an empty array
       if (!Array.isArray(room) || room.length === 0) {
         await del(key);
-        socket.join(socket.user.id);
         return set(
           key,
           JSON.stringify([{
@@ -74,7 +71,6 @@ export default async (socket, io) => {
           socketId: socket.id,
           userId: socket.user.id,
         });
-        socket.join(socket.user.id);
         return set(
           key,
           JSON.stringify(room),
@@ -107,7 +103,6 @@ export default async (socket, io) => {
           socketId: socket.id,
           userId: socket.user.id,
         });
-        socket.join(socket.user.id);
         return set(
           key,
           JSON.stringify(room),
@@ -119,7 +114,6 @@ export default async (socket, io) => {
         socketId: socket.id,
         userId: socket.user.id,
       });
-      socket.join(socket.user.id);
       return set(
         key,
         JSON.stringify(room),
@@ -128,7 +122,6 @@ export default async (socket, io) => {
 
     // if it is not a string
     await del(key);
-    socket.join(socket.user.id);
     return set(
       key,
       JSON.stringify([{

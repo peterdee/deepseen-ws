@@ -4,6 +4,12 @@ import { SOCKET_EVENTS } from '../configuration/index.js';
 
 import disconnect from '../handlers/disconnect.handler.js';
 
+/**
+ * Router for the incoming events
+ * @param {*} socket - socket object
+ * @param {*} io - Socket.IO object
+ * @returns {Promise<void>}
+ */
 export default async (socket, io) => {
   log(` > connected: ${socket.id} [ID: ${socket.user.id}, client: ${socket.user.client}]`);
 
@@ -13,12 +19,10 @@ export default async (socket, io) => {
   // join the room
   socket.join(socket.user.id);
 
+  // handlers
   socket.on('message', (data) => {
-    log(`message: ${data}, ${
-      JSON.stringify(socket.user)
-    }, ${JSON.stringify(socket.rooms)}`);
+    log(`message: ${data}, ${JSON.stringify(socket.user)}`);
   });
-
   socket.on(SOCKET_EVENTS.playNext, () => log('play next'));
 
   // handle client disconnect
