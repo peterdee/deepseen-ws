@@ -4,11 +4,14 @@ import { SOCKET_EVENTS } from '../configuration/index.js';
 
 import disconnect from '../handlers/disconnect.handler.js';
 
-export default async (socket) => {
+export default async (socket, io) => {
   log(` > connected: ${socket.id} [ID: ${socket.user.id}, client: ${socket.user.client}]`);
 
   // client access control
-  await clientAccessControl(socket);
+  await clientAccessControl(socket, io);
+
+  // join the room
+  socket.join(socket.user.id);
 
   socket.on('message', (data) => {
     log(`message: ${data}, ${

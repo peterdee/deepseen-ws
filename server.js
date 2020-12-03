@@ -25,7 +25,7 @@ const io = new Server(
 
 io.use((socket, next) => authorize(socket, next));
 
-io.on(SOCKET_EVENTS.connection, router);
+io.on(SOCKET_EVENTS.connection, (socket) => router(socket, io));
 
 redis.on('connect', () => log('-- redis: connected'));
 

@@ -6,14 +6,16 @@ import {
   STATUS_CODES,
 } from '../configuration/index.js';
 import { del, get, set } from './redis.js';
+import getConnections from './get-connections.js';
 import keyFormatter from './key-formatter.js';
 
 /**
  * Client access control: prevent multiple connections of the same client type
  * @param {*} socket - socket connection
+ * @param {*} io - Socket.IO connection
  * @returns {Promise<void|Error>}
  */
-export default async (socket) => {
+export default async (socket, io) => {
   try {
     // get room record from Redis
     const key = keyFormatter(REDIS.PREFIXES.room, socket.user.id);
@@ -82,13 +84,33 @@ export default async (socket) => {
       // in any other case
       const clients = room.map((item) => item.client);
       if (clients.includes(socket.user.client)) {
-        return socket.emit(
-          EVENTS.OUTGOING.clientTypeAlreadyOnline,
-          {
-            client: socket.user.client,
-            info: RESPONSE_MESSAGES.clientTypeAlreadyOnline,
-            status: STATUS_CODES.badRequest,
-          },
+        // get all of the connected Socket IDs
+        const ids = getConnections(io);
+
+        // check if this socket is still connected
+        const [connection] = room.filter(({ client = '' }) => client === socket.user.client);
+        if (ids.includes(connection.socketId)) {
+          return socket.emit(
+            EVENTS.OUTGOING.clientTypeAlreadyOnline,
+            {
+              client: socket.user.client,
+              info: RESPONSE_MESSAGES.clientTypeAlreadyOnline,
+              status: STATUS_CODES.badRequest,
+            },
+          );
+        }
+
+        // renew the client
+        room = room.filter(({ client = '' }) => client !== socket.user.client);
+        room.push({
+          client: socket.user.client,
+          socketId: socket.id,
+          userId: socket.user.id,
+        });
+        socket.join(socket.user.id);
+        return set(
+          key,
+          JSON.stringify(room),
         );
       }
 
