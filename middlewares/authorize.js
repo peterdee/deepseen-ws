@@ -11,8 +11,8 @@ import {
   WS_SECRET,
 } from '../configuration/index.js';
 import errorResponse from '../utilities/error-response.js';
-import keyFormatter from '../utilities/key-formatter.js';
 import { expire, get, set } from '../utilities/redis.js';
+import keyFormatter from '../utilities/key-formatter.js';
 
 /**
  * Authorize a connection

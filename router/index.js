@@ -19,6 +19,8 @@ export default async (socket, io) => {
   // join the room
   socket.join(socket.user.id);
 
+  // TODO: notify others in the same room that a new client has connected
+
   // handlers
   socket.on('message', (data) => {
     log(`message: ${data}, ${JSON.stringify(socket.user)}`);
