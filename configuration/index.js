@@ -67,9 +67,17 @@ export const RESPONSE_MESSAGES = {
 
 // Incoming socket event names
 export const SOCKET_EVENTS = {
+  CLIENT_DISCONNECTED: 'CLIENT_DISCONNECTED',
   connection: 'connection',
   disconnect: 'disconnect',
-  playNext: 'play-next',
+  NEW_CLIENT_CONNECTED: 'NEW_CLIENT_CONNECTED',
+  PLAY_NEXT: 'PLAY_NEXT',
+  PLAY_PAUSE: 'PLAY_PAUSE',
+  PLAY_PREVIOUS: 'PLAY_PREVIOUS',
+  ROOM_STATUS: 'ROOM_STATUS',
+  STOP_PLAYBACK: 'STOP_PLAYBACK',
+  UPDATE_CURRENT_TRACK: 'UPDATE_CURRENT_TRACK',
+  UPDATE_PLAYBACK_STATUS: 'UPDATE_PLAYBACK_STATUS',
 };
 
 // Status codes
