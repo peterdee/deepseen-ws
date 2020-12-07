@@ -4,6 +4,10 @@ import { SOCKET_EVENTS } from '../configuration/index.js';
 
 import disconnect from '../handlers/disconnect.handler.js';
 import newClientConnected from '../handlers/new-client-connected.handler.js';
+import playNext from '../handlers/play-next.handler.js';
+import playPause from '../handlers/play-pause.handler.js';
+import playPrevious from '../handlers/play-previous.handler.js';
+import stopPlayback from '../handlers/stop-playback.handler.js';
 
 /**
  * Router for the incoming events
@@ -23,22 +27,10 @@ export default async (socket, io) => {
     await newClientConnected(socket);
 
     // handlers TODO: move those to their respective files
-    socket.on(SOCKET_EVENTS.PLAY_NEXT, () => {
-      log('next');
-      socket.to(socket.user.id).emit(SOCKET_EVENTS.PLAY_NEXT);
-    });
-    socket.on(SOCKET_EVENTS.PLAY_PAUSE, () => {
-      log('play / pause');
-      socket.to(socket.user.id).emit(SOCKET_EVENTS.PLAY_PAUSE);
-    });
-    socket.on(SOCKET_EVENTS.PLAY_PREVIOUS, () => {
-      log('previous');
-      socket.to(socket.user.id).emit(SOCKET_EVENTS.PLAY_PREVIOUS);
-    });
-    socket.on(SOCKET_EVENTS.STOP_PLAYBACK, () => {
-      log('stop');
-      socket.to(socket.user.id).emit(SOCKET_EVENTS.STOP_PLAYBACK);
-    });
+    socket.on(SOCKET_EVENTS.PLAY_NEXT, () => playNext(socket));
+    socket.on(SOCKET_EVENTS.PLAY_PAUSE, () => playPause(socket));
+    socket.on(SOCKET_EVENTS.PLAY_PREVIOUS, () => playPrevious(socket));
+    socket.on(SOCKET_EVENTS.STOP_PLAYBACK, () => stopPlayback(socket));
 
     // handle client disconnect
     socket.on(
