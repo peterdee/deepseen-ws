@@ -25,18 +25,6 @@ export const ENVS = {
 // Current application environment
 export const ENV = environment.ENV || ENVS.development;
 
-// Socket events
-export const EVENTS = {
-  INCOMING: {
-    connection: 'connection',
-    disconnect: 'disconnect',
-  },
-  OUTGOING: {
-    clientTypeAlreadyOnline: 'CLIENT_TYPE_IS_ALREADY_ONLINE',
-    internalServerError: 'INTERNAL_SERVER_ERROR',
-  },
-};
-
 // Database connection
 export const { DATABASE_CONNECTION_STRING = '' } = environment;
 
@@ -65,11 +53,13 @@ export const RESPONSE_MESSAGES = {
   ok: 'OK',
 };
 
-// Incoming socket event names
+// Socket events
 export const SOCKET_EVENTS = {
+  CLIENT_TYPE_IS_ALREADY_ONLINE: 'CLIENT_TYPE_IS_ALREADY_ONLINE',
   CLIENT_DISCONNECTED: 'CLIENT_DISCONNECTED',
-  connection: 'connection',
-  disconnect: 'disconnect',
+  CONNECTION: 'connection',
+  DISCONNECT: 'disconnect',
+  INTERNAL_SERVER_ERROR: 'INTERNAL_SERVER_ERROR',
   NEW_CLIENT_CONNECTED: 'NEW_CLIENT_CONNECTED',
   PLAY_NEXT: 'PLAY_NEXT',
   PLAY_PAUSE: 'PLAY_PAUSE',
@@ -78,6 +68,7 @@ export const SOCKET_EVENTS = {
   STOP_PLAYBACK: 'STOP_PLAYBACK',
   UPDATE_CURRENT_TRACK: 'UPDATE_CURRENT_TRACK',
   UPDATE_PLAYBACK_STATUS: 'UPDATE_PLAYBACK_STATUS',
+  UPDATE_VOLUME: 'UPDATE_VOLUME',
 };
 
 // Status codes

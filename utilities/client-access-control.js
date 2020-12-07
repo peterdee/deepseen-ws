@@ -1,8 +1,8 @@
 import {
   CLIENTS,
-  EVENTS,
   REDIS,
   RESPONSE_MESSAGES,
+  SOCKET_EVENTS,
   STATUS_CODES,
 } from '../configuration/index.js';
 import { del, get, set } from './redis.js';
@@ -87,7 +87,7 @@ export default async (socket, io) => {
         const [connection] = room.filter(({ client = '' }) => client === socket.user.client);
         if (ids.includes(connection.socketId)) {
           return socket.emit(
-            EVENTS.OUTGOING.clientTypeAlreadyOnline,
+            SOCKET_EVENTS.CLIENT_TYPE_IS_ALREADY_ONLINE,
             {
               client: socket.user.client,
               info: RESPONSE_MESSAGES.clientTypeAlreadyOnline,
@@ -132,7 +132,7 @@ export default async (socket, io) => {
     );
   } catch {
     return socket.emit(
-      EVENTS.OUTGOING.internalServerError,
+      SOCKET_EVENTS.INTERNAL_SERVER_ERROR,
       {
         client: socket.user.client,
         info: RESPONSE_MESSAGES.internalServerError,

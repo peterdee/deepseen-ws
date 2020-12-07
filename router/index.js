@@ -9,6 +9,7 @@ import playPause from '../handlers/play-pause.handler.js';
 import playPrevious from '../handlers/play-previous.handler.js';
 import stopPlayback from '../handlers/stop-playback.handler.js';
 import updateCurrentTrack from '../handlers/update-current-track.handler.js';
+import updateVolume from '../handlers/update-volume.handler.js';
 
 /**
  * Router for the incoming events
@@ -33,10 +34,11 @@ export default async (socket, io) => {
     socket.on(SOCKET_EVENTS.PLAY_PREVIOUS, () => playPrevious(socket));
     socket.on(SOCKET_EVENTS.STOP_PLAYBACK, () => stopPlayback(socket));
     socket.on(SOCKET_EVENTS.UPDATE_CURRENT_TRACK, (data) => updateCurrentTrack(socket, data));
+    socket.on(SOCKET_EVENTS.UPDATE_VOLUME, (data) => updateVolume(socket, data));
 
     // handle client disconnect
     socket.on(
-      SOCKET_EVENTS.disconnect,
+      SOCKET_EVENTS.DISCONNECT,
       (reason = '') => disconnect(socket, reason),
     );
   } catch (error) {
