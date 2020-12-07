@@ -8,6 +8,7 @@ import playNext from '../handlers/play-next.handler.js';
 import playPause from '../handlers/play-pause.handler.js';
 import playPrevious from '../handlers/play-previous.handler.js';
 import stopPlayback from '../handlers/stop-playback.handler.js';
+import updateCurrentTrack from '../handlers/update-current-track.handler.js';
 
 /**
  * Router for the incoming events
@@ -26,11 +27,12 @@ export default async (socket, io) => {
     socket.join(socket.user.id);
     await newClientConnected(socket);
 
-    // handlers TODO: move those to their respective files
+    // event handlers
     socket.on(SOCKET_EVENTS.PLAY_NEXT, () => playNext(socket));
     socket.on(SOCKET_EVENTS.PLAY_PAUSE, () => playPause(socket));
     socket.on(SOCKET_EVENTS.PLAY_PREVIOUS, () => playPrevious(socket));
     socket.on(SOCKET_EVENTS.STOP_PLAYBACK, () => stopPlayback(socket));
+    socket.on(SOCKET_EVENTS.UPDATE_CURRENT_TRACK, (data) => updateCurrentTrack(socket, data));
 
     // handle client disconnect
     socket.on(
