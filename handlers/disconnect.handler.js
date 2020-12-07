@@ -1,7 +1,7 @@
 import { del, get, set } from '../utilities/redis.js';
 import keyFormatter from '../utilities/key-formatter.js';
 import log from '../utilities/log.js';
-import { REDIS } from '../configuration/index.js';
+import { REDIS, SOCKET_EVENTS } from '../configuration/index.js';
 
 /**
  * Handle client disconnect
@@ -18,6 +18,14 @@ export default async (socket, reason = '') => {
   const key = keyFormatter(REDIS.PREFIXES.room, socket.user.id);
 
   try {
+    // notify the room
+    socket.to(socket.user.id).emit(
+      SOCKET_EVENTS.CLIENT_DISCONNECTED,
+      {
+        client: socket.user.client,
+      },
+    );
+
     // get room record from Redis
     const redisRoom = await get(key);
 
@@ -48,7 +56,10 @@ export default async (socket, reason = '') => {
 
     // delete the room record in all other cases
     return del(key);
-  } catch {
+  } catch (error) {
+    // show an error
+    log(error);
+
     // delete the room if something goes wrong
     return del(key);
   }
