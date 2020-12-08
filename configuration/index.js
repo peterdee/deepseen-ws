@@ -40,7 +40,8 @@ export const REDIS = {
     room: 'room',
     user: 'user',
   },
-  TTL: 24 * 60 * 60, // 8 hours
+  TTL: 8 * 60 * 60, // 8 hours
+  TTL_ROOM: 24 * 60 * 60, // 24 hours
 };
 
 // Response messages

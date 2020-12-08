@@ -51,6 +51,8 @@ export default async (socket, reason = '') => {
       return set(
         key,
         JSON.stringify(cleanedRoom),
+        'EX',
+        REDIS.TTL_ROOM,
       );
     }
 

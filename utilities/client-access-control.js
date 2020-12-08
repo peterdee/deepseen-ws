@@ -30,6 +30,8 @@ export default async (socket, io) => {
           socketId: socket.id,
           userId: socket.user.id,
         }]),
+        'EX',
+        REDIS.TTL_ROOM,
       );
     }
 
@@ -48,6 +50,8 @@ export default async (socket, io) => {
             socketId: socket.id,
             userId: socket.user.id,
           }]),
+          'EX',
+          REDIS.TTL_ROOM,
         );
       }
 
@@ -61,6 +65,8 @@ export default async (socket, io) => {
             socketId: socket.id,
             userId: socket.user.id,
           }]),
+          'EX',
+          REDIS.TTL_ROOM,
         );
       }
 
@@ -74,6 +80,8 @@ export default async (socket, io) => {
         return set(
           key,
           JSON.stringify(room),
+          'EX',
+          REDIS.TTL_ROOM,
         );
       }
 
@@ -106,6 +114,8 @@ export default async (socket, io) => {
         return set(
           key,
           JSON.stringify(room),
+          'EX',
+          REDIS.TTL_ROOM,
         );
       }
 
@@ -117,6 +127,8 @@ export default async (socket, io) => {
       return set(
         key,
         JSON.stringify(room),
+        'EX',
+        REDIS.TTL_ROOM,
       );
     }
 
@@ -129,6 +141,8 @@ export default async (socket, io) => {
         socketId: socket.id,
         userId: socket.user.id,
       }]),
+      'EX',
+      REDIS.TTL_ROOM,
     );
   } catch {
     return socket.emit(
