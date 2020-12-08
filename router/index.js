@@ -9,6 +9,7 @@ import playPause from '../handlers/play-pause.handler.js';
 import playPrevious from '../handlers/play-previous.handler.js';
 import stopPlayback from '../handlers/stop-playback.handler.js';
 import updateCurrentTrack from '../handlers/update-current-track.handler.js';
+import updateMute from '../handlers/update-mute.handler.js';
 import updatePlaybackState from '../handlers/update-playback-state.handler.js';
 import updateProgress from '../handlers/update-progress.handler.js';
 import updateVolume from '../handlers/update-volume.handler.js';
@@ -36,6 +37,7 @@ export default async (socket, io) => {
     socket.on(SOCKET_EVENTS.PLAY_PREVIOUS, () => playPrevious(socket));
     socket.on(SOCKET_EVENTS.STOP_PLAYBACK, () => stopPlayback(socket));
     socket.on(SOCKET_EVENTS.UPDATE_CURRENT_TRACK, (data) => updateCurrentTrack(socket, data));
+    socket.on(SOCKET_EVENTS.UPDATE_MUTE, (data) => updateMute(socket, data));
     socket.on(SOCKET_EVENTS.UPDATE_PLAYBACK_STATE, (data) => updatePlaybackState(socket, data));
     socket.on(SOCKET_EVENTS.UPDATE_PROGRESS, (data) => updateProgress(socket, data));
     socket.on(SOCKET_EVENTS.UPDATE_VOLUME, (data) => updateVolume(socket, data));
