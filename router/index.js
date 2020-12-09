@@ -33,7 +33,7 @@ export default async (socket, io) => {
     await newClientConnected(socket);
 
     // event handlers
-    socket.on(SOCKET_EVENTS.DESKTOP_INIT, () => desktopInit(socket));
+    socket.on(SOCKET_EVENTS.DESKTOP_INIT, (data) => desktopInit(socket, data));
     socket.on(SOCKET_EVENTS.PLAY_NEXT, () => playNext(socket));
     socket.on(SOCKET_EVENTS.PLAY_PAUSE, () => playPause(socket));
     socket.on(SOCKET_EVENTS.PLAY_PREVIOUS, () => playPrevious(socket));
