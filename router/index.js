@@ -2,6 +2,7 @@ import clientAccessControl from '../utilities/client-access-control.js';
 import log from '../utilities/log.js';
 import { SOCKET_EVENTS } from '../configuration/index.js';
 
+import desktopInit from '../handlers/desktop-init.handler.js';
 import disconnect from '../handlers/disconnect.handler.js';
 import newClientConnected from '../handlers/new-client-connected.handler.js';
 import playNext from '../handlers/play-next.handler.js';
@@ -32,6 +33,7 @@ export default async (socket, io) => {
     await newClientConnected(socket);
 
     // event handlers
+    socket.on(SOCKET_EVENTS.DESKTOP_INIT, () => desktopInit(socket));
     socket.on(SOCKET_EVENTS.PLAY_NEXT, () => playNext(socket));
     socket.on(SOCKET_EVENTS.PLAY_PAUSE, () => playPause(socket));
     socket.on(SOCKET_EVENTS.PLAY_PREVIOUS, () => playPrevious(socket));
