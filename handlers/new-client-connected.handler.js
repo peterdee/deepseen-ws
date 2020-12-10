@@ -18,7 +18,13 @@ export default async (socket) => {
     const room = JSON.parse(redisRoom);
 
     // provide information about the room to the connected client
-    socket.emit(SOCKET_EVENTS.ROOM_STATUS, { room });
+    socket.emit(
+      SOCKET_EVENTS.ROOM_STATUS,
+      {
+        room,
+        target: socket.user.client,
+      },
+    );
 
     // notify other clients
     return socket.to(socket.user.id).emit(
