@@ -16,7 +16,7 @@ export default (socket, data) => {
       volume = 0,
     } = data;
     socket.to(socket.user.id).emit(
-      SOCKET_EVENTS.UPDATE_VOLUME,
+      SOCKET_EVENTS.DESKTOP_INIT,
       {
         isMuted,
         isPlaying,
