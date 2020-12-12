@@ -8,6 +8,7 @@ import {
 import { del, get, set } from './redis.js';
 import getConnections from './get-connections.js';
 import keyFormatter from './key-formatter.js';
+import log from './log.js';
 
 /**
  * Client access control: prevent multiple connections of the same client type
@@ -94,7 +95,7 @@ export default async (socket, io) => {
         // check if this socket is still connected
         const [connection] = room.filter(({ client = '' }) => client === socket.user.client);
         if (ids.includes(connection.socketId)) {
-          return socket.emit(
+          await socket.emit(
             SOCKET_EVENTS.CLIENT_TYPE_IS_ALREADY_ONLINE,
             {
               client: socket.user.client,
@@ -102,6 +103,12 @@ export default async (socket, io) => {
               status: STATUS_CODES.badRequest,
             },
           );
+
+          log(` > dropped: ${socket.id} [ID: ${
+            socket.user.id
+          }, client: ${socket.user.client}]`);
+
+          return socket.disconnect(true);
         }
 
         // renew the client
