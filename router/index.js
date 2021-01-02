@@ -15,6 +15,7 @@ import updateLoop from '../handlers/update-loop.handler.js';
 import updateMute from '../handlers/update-mute.handler.js';
 import updatePlaybackState from '../handlers/update-playback-state.handler.js';
 import updateProgress from '../handlers/update-progress.handler.js';
+import updateQueue from '../handlers/update-queue.handler.js';
 import updateShuffle from '../handlers/update-shuffle.handler.js';
 import updateVolume from '../handlers/update-volume.handler.js';
 
@@ -47,6 +48,7 @@ export default async (socket, io) => {
     socket.on(SOCKET_EVENTS.UPDATE_MUTE, (data) => updateMute(socket, data));
     socket.on(SOCKET_EVENTS.UPDATE_PLAYBACK_STATE, (data) => updatePlaybackState(socket, data));
     socket.on(SOCKET_EVENTS.UPDATE_PROGRESS, (data) => updateProgress(socket, data));
+    socket.on(SOCKET_EVENTS.UPDATE_QUEUE, (data) => updateQueue(socket, data));
     socket.on(SOCKET_EVENTS.UPDATE_SHUFFLE, (data) => updateShuffle(socket, data));
     socket.on(SOCKET_EVENTS.UPDATE_VOLUME, (data) => updateVolume(socket, data));
 
