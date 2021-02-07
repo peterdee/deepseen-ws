@@ -3,6 +3,7 @@ import log from '../utilities/log.js';
 import { SOCKET_EVENTS } from '../configuration/index.js';
 
 import clearQueue from '../handlers/clear-queue.handler.js';
+import completeLogout from '../handlers/complete-logout.handler.js';
 import desktopInit from '../handlers/desktop-init.handler.js';
 import disconnect from '../handlers/disconnect.handler.js';
 import newClientConnected from '../handlers/new-client-connected.handler.js';
@@ -38,6 +39,7 @@ export default async (socket, io) => {
 
     // event handlers
     socket.on(SOCKET_EVENTS.CLEAR_QUEUE, () => clearQueue(socket));
+    socket.on(SOCKET_EVENTS.COMPLETE_LOGOUT, () => completeLogout(socket));
     socket.on(SOCKET_EVENTS.DESKTOP_INIT, (data) => desktopInit(socket, data));
     socket.on(SOCKET_EVENTS.PLAY_NEXT, () => playNext(socket));
     socket.on(SOCKET_EVENTS.PLAY_PAUSE, () => playPause(socket));
